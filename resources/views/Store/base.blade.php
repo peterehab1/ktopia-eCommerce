@@ -763,7 +763,7 @@
 
                                 <div class="header-logo">
                                     <h1 class="theme-logo" itemscope itemtype="http://schema.org/Organization">
-                                        <a class="logo" href="http://haintheme.com/demo/wp/minim/" itemprop="url">
+                                    <a class="logo" href="{{ route('home') }}" itemprop="url">
                                             <img class="primary-logo"
                                                 src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/miini-logo.png"
                                                 alt="Logo image" itemprop="logo"

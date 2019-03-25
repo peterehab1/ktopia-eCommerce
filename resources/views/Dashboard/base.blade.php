@@ -64,7 +64,7 @@
           <br>
          
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('add_new_product') }}">
+            <a class="nav-link" href="{{ route('all_products') }}">
                 
               عرض المنتجات
               <span data-feather="shopping-cart"></span>

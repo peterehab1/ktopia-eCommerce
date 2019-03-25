@@ -51,7 +51,7 @@
                 <article class="gallery-wrap">
                     <div class="img-big-wrap">
                         <div> <a href="#"><img
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-600x600.png"></a>
+                                    src="{{ asset('Store/images/products/'.$product->pic1.'') }}"></a>
                         </div>
                     </div> <!-- slider-product.// -->
                     <div class="img-small-wrap">
@@ -69,13 +69,13 @@
             </aside>
             <aside class="col-sm-7" style="text-align: right;">
                 <article class="card-body p-5">
-                    <h3 class="title mb-3"> كرسي متعدد الأستخدامات . <a style="font-size: 13px;font-weight: normal;"
-                            href="##"> معفوشات </a></h3>
+                    <h3 class="title mb-3">{{ $product->name_ar }} . <a style="font-size: 13px;font-weight: normal;"
+                            href="##"> {{ $product->category->name_ar }} </a></h3>
 
                     <p class="price-detail-wrap">
                         <span class="price h3 text-warning">
                             <span style="margin: 5px;" class="currency"> جنية </span> <span style="float: right;"
-                                class="num"> 1299 </span>
+                                class="num"> {{ $product->price }} </span>
                         </span>
                         <br>
 
@@ -83,13 +83,12 @@
                     <dl class="item-property">
                         <dt>الوصف</dt>
                         <dd>
-                            <p> هذا كرسي يساعدك علي الجلوس , هذا كرسي يساعدك علي الجلوس , هذا كرسي يساعدك علي الجلوس,
-                                هذا كرسي يساعدك علي الجلوس </p>
+                            <p> {{ $product->body_ar }} </p>
                         </dd>
                     </dl>
                     <dl class="param param-feature">
                         <dt>الرقم التسلسلي</dt>
-                        <dd>12345611</dd>
+                        <dd>{{ $product->key }}</dd>
                     </dl> <!-- item-property-hor .// -->
 
                     <form>

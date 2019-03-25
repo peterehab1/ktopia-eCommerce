@@ -16,10 +16,14 @@
       </div>
       @endif
 
+      @if(Session::has('message-image-big'))
+          <p class="alert alert-danger">{{ Session::get('message-image-big') }}</p>
+      @endif
+
 
   </div>
 
-<form action="{{ route('save_new_product') }}" method="POST">
+<form enctype="multipart/form-data" action="{{ route('save_new_product') }}" method="POST">
   {{ csrf_field() }}
     <div class="form-group">
       <label for="exampleFormControlInput1">أسم المنتج *</label>
@@ -31,7 +35,7 @@
     </div>
     <div class="form-group">
       <label for="exampleFormControlSelect1">قسم المنتج *</label>
-      <select name="prodcut_category" class="form-control" id="exampleFormControlSelect1">
+      <select name="product_category" class="form-control" id="exampleFormControlSelect1">
         @foreach ($categories as $c)
       <option value="{{ $c->id }}">{{ $c->name_ar }}</option>
         @endforeach
@@ -39,7 +43,7 @@
     </div>
     <div class="form-group">
       <label for="exampleFormControlInput1">سعر المنتج *</label>
-      <input name="prodcut_price" required type="number" step="0.01" name="product_price" class="form-control" id="exampleFormControlInput1" placeholder="مثال : 75 جنية">
+      <input name="product_price" required type="number" step="0.01" name="product_price" class="form-control" id="exampleFormControlInput1" placeholder="مثال : 75 جنية">
     </div>
 
     <div class="form-group">
@@ -54,17 +58,20 @@
 
       <div class="form-group">
         <label for="exampleFormControlFile1">صورة المنتج 1 *</label>
-        <input name="prodcut_image1" required type="file" class="form-control-file" id="exampleFormControlFile1">
+        <input name="product_image1" required type="file" class="form-control-file" id="exampleFormControlFile1">
+        <small>3M max</small>
       </div>
 
       <div class="form-group">
         <label for="exampleFormControlFile1">صورة المنتج 2</label>
-        <input name="prodcut_image2" type="file" class="form-control-file" id="exampleFormControlFile1">
+        <input name="product_image2" type="file" class="form-control-file" id="exampleFormControlFile1">
+        <small>3M max</small>
       </div>
 
       <div class="form-group">
         <label for="exampleFormControlFile1">صورة المنتج 3</label>
-        <input name="prodcut_image3" type="file" class="form-control-file" id="exampleFormControlFile1">
+        <input name="product_image3" type="file" class="form-control-file" id="exampleFormControlFile1">
+        <small>3M max</small>
       </div>
 
       <hr>

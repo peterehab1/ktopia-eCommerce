@@ -14,10 +14,11 @@ Auth::routes();
 
 ## Store ##
 Route::get('/', 'Store\HomeController@home')->name('home');
-Route::get('/product/{id}', 'Store\ProductController@show');
+Route::get('/product/{key}', 'Store\ProductController@show');
 
 ## Admin ##
 Route::get('/admin-dashboard', 'Dashboard\HomeController@home')->name('admin-dashboard');
 Route::get('/admin-dashboard/add_new_product', 'Dashboard\ProductController@addNewProduct')->name('add_new_product');
 Route::post('/admin-dashboard/add_new_product', 'Dashboard\ProductController@saveNewProduct')->name('save_new_product');
+Route::get('/admin-dashboard/all_products', 'Dashboard\ProductController@allProducts')->name('all_products');
 
