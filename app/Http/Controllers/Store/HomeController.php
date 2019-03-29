@@ -11,7 +11,9 @@ class HomeController extends Controller
 {
     public function home(){
 
-        $products = Product::all();
-        return view('Store/home')->with(compact('products'));
+        $latest_products = Product::where('status', 1)->orderBy('created_at', 'desc')->limit('8')->get();
+        $popular_products = Product::orderBy('order_times', 'desc')->limit('4')->get();
+
+        return view('Store/home')->with(compact('latest_products', 'popular_products'));
     }
 }

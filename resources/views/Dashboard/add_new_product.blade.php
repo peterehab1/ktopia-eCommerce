@@ -16,22 +16,17 @@
       </div>
       @endif
 
-      @if(Session::has('message-image-big'))
-          <p class="alert alert-danger">{{ Session::get('message-image-big') }}</p>
-      @endif
-
-
   </div>
 
 <form enctype="multipart/form-data" action="{{ route('save_new_product') }}" method="POST">
   {{ csrf_field() }}
     <div class="form-group">
       <label for="exampleFormControlInput1">أسم المنتج *</label>
-      <input required type="text" name="product_name" class="form-control" id="exampleFormControlInput1" placeholder="مثال : تيشرت">
+    <input value="{{ old('product_name') }}" required type="text" name="product_name" class="form-control" id="exampleFormControlInput1" placeholder="مثال : تيشرت">
     </div>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">وصف المنتج *</label>
-      <textarea name="product_body" required placeholder="مثال : أضف وصف للمنتج هنا" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <textarea value="{{ old('product_body') }}" name="product_body" required placeholder="مثال : أضف وصف للمنتج هنا" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     </div>
     <div class="form-group">
       <label for="exampleFormControlSelect1">قسم المنتج *</label>
@@ -42,18 +37,26 @@
       </select>
     </div>
     <div class="form-group">
+      <label for="exampleFormControlSelect1">نوع المنتج *</label>
+      <select name="product_gender" class="form-control" id="exampleFormControlSelect1">
+        <option value="0">محايد</option>
+        <option value="1">مذكر</option>
+        <option value="2">مؤنث</option>
+      </select>
+    </div>
+    <div class="form-group">
       <label for="exampleFormControlInput1">سعر المنتج *</label>
-      <input name="product_price" required type="number" step="0.01" name="product_price" class="form-control" id="exampleFormControlInput1" placeholder="مثال : 75 جنية">
+      <input value="{{ old('product_price') }}" name="product_price" required type="number" step="0.01" name="product_price" class="form-control" id="exampleFormControlInput1" placeholder="مثال : 75 جنية">
     </div>
 
     <div class="form-group">
       <label for="exampleFormControlTextarea1">ألوان المنتج</label>
-      <input placeholder="أزرق, أحمر, أخضر" name="product_colors" type="text" id="exampleFormControlInput1" class="form-control">
+      <input value="{{ old('product_colors') }}" placeholder="أزرق, أحمر, أخضر" name="product_colors" type="text" id="exampleFormControlInput1" class="form-control">
     </div>
     
     <div class="form-group">
       <label for="exampleFormControlTextarea1">أحجام المنتج</label>
-      <input placeholder="صغير, متوسط, أكس لارج" name="product_sizes" type="text" id="exampleFormControlInput1" class="form-control">
+      <input value="{{ old('product_sizes') }}" placeholder="صغير, متوسط, أكس لارج" name="product_sizes" type="text" id="exampleFormControlInput1" class="form-control">
     </div>
 
       <div class="form-group">

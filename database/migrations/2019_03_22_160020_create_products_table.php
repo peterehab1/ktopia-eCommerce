@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name_ar');
             $table->text('body_en')->nullable();
             $table->text('body_ar');
+            $table->tinyInteger('gender');
             $table->tinyInteger('category_id');
             $table->string('key');
             $table->float('price');
@@ -30,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->string('pic3')->nullable();
             $table->smallInteger('sale')->nullable();
             $table->tinyInteger('status')->default('1');
+            $table->integer('order_times')->default('0');
             $table->timestamps();
 
         });

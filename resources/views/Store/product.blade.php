@@ -1,5 +1,5 @@
 @extends('Store/base')
-@section('title', 'المنتج')
+@section('title', ''.$product->name_ar.'')
 @section('content')
 <!----####-->
 
@@ -55,15 +55,17 @@
                         </div>
                     </div> <!-- slider-product.// -->
                     <div class="img-small-wrap">
+                        @if ($product->pic2)
+                            <div class="item-gallery"> <img
+                                src="{{ asset('Store/images/products/'.$product->pic2.'') }}">
+                            </div>
+                        @endif
+                        @if ($product->pic3)
                         <div class="item-gallery"> <img
-                                src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/15-shop-600x600.png">
+                            src="{{ asset('Store/images/products/'.$product->pic3.'') }}">
                         </div>
-                        <div class="item-gallery"> <img
-                                src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-a-600x600.png">
-                        </div>
-                        <div class="item-gallery"> <img
-                                src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-b-600x600.png">
-                        </div>
+                    @endif
+                        
                     </div> <!-- slider-nav.// -->
                 </article> <!-- gallery-wrap .end// -->
             </aside>
@@ -91,29 +93,53 @@
                         <dd>{{ $product->key }}</dd>
                     </dl> <!-- item-property-hor .// -->
 
-                    <form>
-                        <dl class="param param-feature">
-                            <dt>اللون</dt>
-                            <dd><select class="select-menu-product">
-                                    <option>أسود</option>
-                                    <option>أزرق</option>
-                                    <option>خرا علي دماغك</option>
-                                </select></dd>
-                        </dl> <!-- item-property-hor .// -->
+                    <form method="POST" action="{{ route('add-to-cart') }}">
+                        {{ csrf_field() }}
+                        <?php
+                            $product_colors = $product->colors;
+                            $product_sizes = $product->sizes;
 
+                            $colors = explode(',', $product_colors);    
+                            $sizes = explode(',', $product_sizes);    
+                        ?>
+
+                        <input hidden name="product_price" type="number" step="0.01" value="{{ $product->price }}">
+                        <input hidden name="product_id" type="number" value="{{ $product->id }}">
+
+                        @if ($colors[0])
+                            <dl class="param param-feature">
+                                <dt>اللون</dt>
+                                <dd>
+                                    <select name="product_color" class="select-menu-product">
+                                       
+                                       @foreach ($colors as $color)
+                                            <option value="{{ $color }}">{{ $color }}</option>
+                                       @endforeach
+    
+                                    </select>
+                                </dd>
+                            </dl> <!-- item-property-hor .// -->
+                        @endif
+                        
+                        @if ($sizes[0])
                         <dl class="param param-feature">
                             <dt>الحجم</dt>
-                            <dd><select class="select-menu-product">
-                                    <option>صغير</option>
-                                    <option>كبير</option>
-                                    <option>خرا علي دماغك</option>
-                                </select></dd>
+                            <dd>
+                                <select name="product_size" class="select-menu-product">
+                                   
+                                   @foreach ($sizes as $size)
+                                        <option value="{{ $size }}">{{ $size }}</option>
+                                   @endforeach
+
+                                </select>
+                            </dd>
                         </dl> <!-- item-property-hor .// -->
+                        @endif
 
                         <dl class="param param-feature">
                             <dt>الكمية</dt>
                             <dd><input required size="2" style="padding: 6px;" class="select-menu-product" value="1"
-                                    type="number" name="quantity" /></dd>
+                                    type="number" name="product_quantity" /></dd>
                         </dl> <!-- item-property-hor .// -->
 
                         <hr>
@@ -152,146 +178,34 @@
             <div class="miini-widget-products">
 
                 <ul class="products columns-4">
+                    
+                   
+                    @foreach ($similar_products as $p)
                     <li
-                        class="post-601 product type-product status-publish has-post-thumbnail product_cat-dining-room product_tag-chair product_tag-minimal product_tag-wallnut first instock featured shipping-taxable purchasable product-type-variable has-default-attributes">
+                    class="post-616 product type-product status-publish has-post-thumbnail product_cat-furniture product_tag-caddy product_tag-tea instock shipping-taxable purchasable product-type-simple">
                         <div class="product-image-wrapper">
-                            <a href="http://haintheme.com/demo/wp/minim/product/kime-chair-2/"
-                                class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="600"
-                                    height="600"
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-600x600.png"
+                            <a href="{{ url('/product/'.$p->key.'') }}"
+                                class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img
+                                    width="600" height="600"
+                        src="{{ asset('Store/images/products/'.$p->pic1.'') }}"
                                     class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
                                     alt="Product image"
-                                    data-origin_src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-600x600.png"
-                                    srcset="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop.png 600w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-250x250.png 250w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-150x150.png 150w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-300x300.png 300w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/2-shop-100x100.png 100w"
+                                    
                                     sizes="(max-width: 600px) 100vw, 600px" />
-                                <span class="hover-product-image"
-                                    style="background-image: url(http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/15-shop.png);"></span>
+                                
                             </a>
-
-
-                            <span class="miini-product-label"
-                                style="color: #ffffff; background-color: #007bff">New</span>
+                            
                         </div>
                         <h2 class="woocommerce-loop-product__title">
-                            <a href="http://haintheme.com/demo/wp/minim/product/kime-chair-2/">Kime
-                                Chair</a></h2>
-
-                        <span class="price"><span class="woocommerce-Price-amount amount"><span
-                                    class="woocommerce-Price-currencySymbol">&#36;</span>67.90</span>
-                            &ndash; <span class="woocommerce-Price-amount amount"><span
-                                    class="woocommerce-Price-currencySymbol">&#36;</span>124.90</span></span>
-                        <div class="pro-swatch-list"><span class="p-attr-swatch p-attr-image " title="chair-black"
-                                data-src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/1-z-600x600.jpg"><img
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/1-z.jpg"
-                                    alt="Swatch image"></span><span class="p-attr-swatch p-attr-image " title="chair"
-                                data-src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/9-b-600x600.jpg"><img
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/9-b.jpg"
-                                    alt="Swatch image"></span></div>
-                        <a href="http://haintheme.com/demo/wp/minim/product/kime-chair-2/" data-quantity="1"
-                            class="button product_type_variable add_to_cart_button" data-product_id="601"
-                            data-product_sku="DN58282" aria-label="Select options for &ldquo;Kime Chair&rdquo;"
-                            rel="nofollow"></a>
+                            <a
+                            href="{{ url('/product/'.$p->key.'') }}">{{ $p->name_ar }}</a></h2>
+                    
+                        <span class="price" style="direction: rtl;"><span
+                                class="woocommerce-Price-amount amount"><span
+                                    class="woocommerce-Price-currencySymbol"></span>{{ $p->price }} جنية</span></span>
+                        
                     </li>
-                    <li
-                        class="post-616 product type-product status-publish has-post-thumbnail product_cat-furniture product_tag-caddy product_tag-tea instock shipping-taxable purchasable product-type-simple">
-                        <div class="product-image-wrapper">
-                            <a href="http://haintheme.com/demo/wp/minim/product/kime-tea-caddy/"
-                                class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="600"
-                                    height="600"
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-600x600.png"
-                                    class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                                    alt="Product image"
-                                    data-origin_src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-600x600.png"
-                                    srcset="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop.png 600w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-250x250.png 250w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-150x150.png 150w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-300x300.png 300w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-100x100.png 100w"
-                                    sizes="(max-width: 600px) 100vw, 600px" />
-                                <span class="hover-product-image"
-                                    style="background-image: url(http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/3-shop-a.png);"></span>
-                            </a>
-
-
-                            <span class="miini-product-label"
-                                style="color: #ffffff; background-color: #007bff">New</span>
-                        </div>
-                        <h2 class="woocommerce-loop-product__title">
-                            <a href="http://haintheme.com/demo/wp/minim/product/kime-tea-caddy/">Kime
-                                Tea Caddy</a></h2>
-
-                        <span class="price"><span class="woocommerce-Price-amount amount"><span
-                                    class="woocommerce-Price-currencySymbol">&#36;</span>29.90</span></span>
-                        <a href="/demo/wp/minim/?add-to-cart=616" data-quantity="1"
-                            class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="616"
-                            data-product_sku="DN582828" aria-label="Add &ldquo;Kime Tea Caddy&rdquo; to your cart"
-                            rel="nofollow"></a>
-                    </li>
-                    <li
-                        class="post-629 product type-product status-publish has-post-thumbnail product_cat-dining-room product_cat-furniture product_tag-case instock sale shipping-taxable purchasable product-type-simple">
-
-                        <span class="onsale">
-                            Sale </span>
-
-                        <div class="product-image-wrapper">
-                            <a href="http://haintheme.com/demo/wp/minim/product/earphone-case/"
-                                class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="600"
-                                    height="600"
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-600x600.png"
-                                    class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                                    alt="Product image"
-                                    data-origin_src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-600x600.png"
-                                    srcset="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop.png 600w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-250x250.png 250w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-150x150.png 150w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-300x300.png 300w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-100x100.png 100w"
-                                    sizes="(max-width: 600px) 100vw, 600px" />
-                                <span class="hover-product-image"
-                                    style="background-image: url(http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-a.png);"></span>
-                            </a>
-
-
-                        </div>
-                        <h2 class="woocommerce-loop-product__title">
-                            <a href="http://haintheme.com/demo/wp/minim/product/earphone-case/">Earphone
-                                Case</a></h2>
-
-                        <span class="price"><del><span class="woocommerce-Price-amount amount"><span
-                                        class="woocommerce-Price-currencySymbol">&#36;</span>49.90</span></del>
-                            <ins><span class="woocommerce-Price-amount amount"><span
-                                        class="woocommerce-Price-currencySymbol">&#36;</span>29.90</span></ins></span>
-                        <a href="/demo/wp/minim/?add-to-cart=629" data-quantity="1"
-                            class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="629"
-                            data-product_sku="DN582842" aria-label="Add &ldquo;Earphone Case&rdquo; to your cart"
-                            rel="nofollow"></a>
-                    </li>
-                    <li
-                        class="post-631 product type-product status-publish has-post-thumbnail product_cat-furniture product_tag-home product_tag-table last instock sale shipping-taxable purchasable product-type-simple">
-
-                        <span class="onsale">
-                            Sale </span>
-
-                        <div class="product-image-wrapper">
-                            <a href="http://haintheme.com/demo/wp/minim/product/horrison-table/"
-                                class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="600"
-                                    height="600"
-                                    src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-600x600.png"
-                                    class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                                    alt="Product image"
-                                    data-origin_src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-600x600.png"
-                                    srcset="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop.png 600w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-250x250.png 250w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-150x150.png 150w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-300x300.png 300w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-100x100.png 100w"
-                                    sizes="(max-width: 600px) 100vw, 600px" />
-                                <span class="hover-product-image"
-                                    style="background-image: url(http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/5-shop-a.png);"></span>
-                            </a>
-
-
-                        </div>
-                        <h2 class="woocommerce-loop-product__title">
-                            <a href="http://haintheme.com/demo/wp/minim/product/horrison-table/">Horrison
-                                Table</a></h2>
-                        <span class="price"><del><span class="woocommerce-Price-amount amount"><span
-                                        class="woocommerce-Price-currencySymbol">&#36;</span>397.90</span></del>
-                            <ins><span class="woocommerce-Price-amount amount"><span
-                                        class="woocommerce-Price-currencySymbol">&#36;</span>350.90</span></ins></span>
-                        <a href="/demo/wp/minim/?add-to-cart=631" data-quantity="1"
-                            class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="631"
-                            data-product_sku="DN582833" aria-label="Add &ldquo;Horrison Table&rdquo; to your cart"
-                            rel="nofollow"></a>
-                    </li>
+                    @endforeach
 
                 </ul>
             </div>

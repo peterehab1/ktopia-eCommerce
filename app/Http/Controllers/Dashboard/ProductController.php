@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         //IMPORTANT
         $destinationPath = public_path('Store/images/products/');
-        $key = md5(uniqid(rand(), true));
+        $key = md5(uniqid(rand(), true) . time());
       
        
         # validated Data...
@@ -66,6 +66,7 @@ class ProductController extends Controller
         $product->key               = $key;
         $product->name_ar          = $request->product_name;
         $product->body_ar          = $request->product_body;
+        $product->gender            =$request->product_gender;  
         $product->price             = $request->product_price;
         $product->category_id       = $request->product_category;
         $product->colors            = $request->product_colors;

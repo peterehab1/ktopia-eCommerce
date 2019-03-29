@@ -1,3 +1,7 @@
+
+@foreach ($categories as $item)
+{{ $item }}
+@endforeach
 <!DOCTYPE html>
 
 <html>
@@ -6,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
-    <title> @yield('title') </title>
+    <title> Ktopia - @yield('title')    </title>
     <style>
         .wishlist_table .add_to_cart,
         a.add_to_wishlist.button.alt {
@@ -715,7 +719,7 @@
                     @foreach ($categories as $c)
                         <li id="menu-item-54"
                         class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home current-menu-ancestor current-menu-parent menu-item-has-children menu-item-54">
-                        <a href="http://haintheme.com/demo/wp/minim/">{{ $c->name_ar }}</a>
+                        <a href="{{ url('/category/'.$c->id.'') }}">{{ $c->name_ar }}</a>
                         
                         </li>
                     @endforeach
@@ -726,20 +730,48 @@
 
             <div class="sidebar-menu-bottom">
                 <ul class="sidebar-actions custom-sidebar-actions">
+                    @auth
                     <li class="sidebar-action custom-sidebar-login">
-                        <a href="http://haintheme.com/demo/wp/minim/my-account/" class="sidebar-action-link">
+                       
+                        <a href="{{ route('logout') }}" class="sidebar-action-link" onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
                             <i class="fas fa-user"></i>
-                            <span class="sidebar-action-text">Login</span>
+                            <span class="sidebar-action-text">تسجيل الخروج</span>
                         </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                            </form>
                     </li>
                     <li class="sidebar-action custom-sidebar-cart">
                         <a href="http://haintheme.com/demo/wp/minim/cart/" id="shopping-cart"
                             class="sidebar-action-link js-cart-button">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="sidebar-action-text">سلة التسوق</span>
-                            <span class="sidebar-action-cart shop-cart-count">1</span>
+                    <span class="sidebar-action-cart shop-cart-count">{{ $shopping_cart_items->count() }}</span>
                         </a>
                     </li>
+                    @else  
+                    <li class="sidebar-action custom-sidebar-login">
+                        <a  href="{{ route('login') }}" class="sidebar-action-link">
+                            <i class="fas fa-user"></i>
+                            <span class="sidebar-action-text">تسجيل الدخول</span>
+                        </a>
+                        <hr>
+                        <a href="{{ route('register') }}" class="sidebar-action-link">
+                            <i class="fas fa-user"></i>
+                            <span class="sidebar-action-text">أنشاء حساب</span>
+                        </a>
+                    </li>  
+                    <li class="sidebar-action custom-sidebar-cart">
+                        <a href="http://haintheme.com/demo/wp/minim/cart/" id="shopping-cart"
+                            class="sidebar-action-link js-cart-button">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="sidebar-action-text">سلة التسوق</span>
+                            <span class="sidebar-action-cart shop-cart-count">0</span>
+                        </a>
+                    </li>
+                    @endauth
+                  
                 </ul>
             </div><!-- .sidebar-menu-bottom -->
         </div><!-- #sidebar-menu-content -->
@@ -803,9 +835,15 @@
                                         </div>
                                         @endauth
                                         
+                                        @auth
                                         <a href="http://haintheme.com/demo/wp/minim/cart/" id="shopping-cart-btn"
                                             class="menu-woo-cart js-cart-button"><i class="fas fa-shopping-cart"></i><span
-                                                class="shop-cart-count">1</span></a>
+                                                class="shop-cart-count">{{ $shopping_cart_items->count() }}</span></a>
+                                        @else
+                                        <a href="http://haintheme.com/demo/wp/minim/cart/" id="shopping-cart-btn"
+                                            class="menu-woo-cart js-cart-button"><i class="fas fa-shopping-cart"></i><span
+                                                class="shop-cart-count">0</span></a>
+                                        @endauth
                                     </div>
                                 </div>
                             </div>
@@ -815,7 +853,7 @@
                                    @foreach ($categories as $c)
                                    <li
                                    class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home current-menu-ancestor current-menu-parent menu-item-has-children menu-item-54">
-                                   <a href="http://haintheme.com/demo/wp/minim/">{{ $c->name_ar }}</a>
+                                <a href="{{ url('/category/'.$c->id.'') }}">{{ $c->name_ar }}</a>
                                    
                                    </li>
                                    @endforeach
@@ -971,9 +1009,11 @@
             <div class="quick-view-content"></div>
         </div>
 
+        <!-- Show shopping cart when auth -->
+        @auth
         <div id="shop-cart-sidebar">
             <div class="cart-sidebar-head">
-                <span class="shop-cart-count"> 1 </span>
+                <span class="shop-cart-count"> {{ $shopping_cart_items->count() }} </span>
                 <h4 class="cart-sidebar-title" style="margin-left: 5px;"> سلة التسوق </h4>
                 
                 <button id="close-cart-sidebar"><i class="fas fa-times"></i></button>
@@ -982,19 +1022,22 @@
 
 
                 <ul class="woocommerce-mini-cart cart_list product_list_widget ">
+
+                    @foreach ($shopping_cart_items as $item)
                     <li class="woocommerce-mini-cart-item mini_cart_item">
-                        <a href="http://haintheme.com/demo/wp/minim/cart/?remove_item=051e4e127b92f5d98d3c79b195f2b291&#038;_wpnonce=e511e31c78"
-                            class="remove remove_from_cart_button" aria-label="Remove this item" data-product_id="629"
-                            data-cart_item_key="051e4e127b92f5d98d3c79b195f2b291"
-                            data-product_sku="DN582842"><i class="fas fa-trash"></i></a> <a
-                            href="http://haintheme.com/demo/wp/minim/product/earphone-case/">
-                            <img width="600" height="600"
-                                src="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-600x600.png"
-                                class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt=""
-                                srcset="http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop.png 600w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-250x250.png 250w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-150x150.png 150w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-300x300.png 300w, http://haintheme.com/demo/wp/minim/wp-content/uploads/2019/01/6-shop-100x100.png 100w"
-                                sizes="(max-width: 600px) 100vw, 600px" />Earphone Case </a>
-                        <span class="quantity">1 &times; <span class="woocommerce-Price-amount amount"><span
-                                    class="woocommerce-Price-currencySymbol">&#36;</span>29.90</span></span> </li>
+                            <a href="http://haintheme.com/demo/wp/minim/cart/?remove_item=051e4e127b92f5d98d3c79b195f2b291&#038;_wpnonce=e511e31c78"
+                                class="remove remove_from_cart_button" aria-label="Remove this item" data-product_id="629"
+                                data-cart_item_key="051e4e127b92f5d98d3c79b195f2b291"
+                                data-product_sku="DN582842"><i class="fas fa-trash"></i></a> <a
+                                href="http://haintheme.com/demo/wp/minim/product/earphone-case/">
+                                <img width="600" height="600"
+                                    src="{{ asset('/Store/images/products/'.$item->product->pic1.'') }}"
+                                     />{{ $item->product->name_ar }} </a>
+                            <span class="quantity">{{ $item->product_quantity }} &times; <span class="woocommerce-Price-amount amount"><span
+                                        class="woocommerce-Price-currencySymbol"></span>{{ $item->product->price }}</span></span> 
+                    </li>
+                    @endforeach
+                    
                 </ul>
 
                <!--Subtotal-->
@@ -1007,7 +1050,28 @@
 
             </div>
         </div>
+        @else
+        <div id="shop-cart-sidebar">
+            <div class="cart-sidebar-head">
+                <span class="shop-cart-count"> 0 </span>
+                <h4 class="cart-sidebar-title" style="margin-left: 5px;"> سلة التسوق </h4>
+                
+                <button id="close-cart-sidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <div style="text-align: center;
+            font-weight: bold;
+            font-size: x-large;
+            margin: 20px;" class="cart-sidebar-content">
 
+               .يجب عليك تسجيل الدخول أولاً<br><br>
+               <a href="{{ route('login') }}">تسجيل الدخول</a><br>
+               <a href="{{ route('register') }}">أنشاء حساب</a>
+               
+
+            </div>
+            
+        </div>
+        @endauth
         <div id="shop-overlay"></div>
         <div class="miini-search-form-container js-search-form">
             <div class="container miini-search-form__inner">
